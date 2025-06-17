@@ -1,0 +1,154 @@
+{
+  "products": [
+    {
+      "id": "prod001",
+      "name": "T-Shirt Basic",
+      "description": "Comfortable cotton t-shirt, suitable for daily wear.",
+      "price": 19.99,
+      "brand": "Fashionista",
+      "weight": 0.2,
+      "color": "White",
+      "stock": 150
+    },
+    {
+      "id": "prod002",
+      "name": "Jeans Slim Fit",
+      "description": "Modern slim fit jeans with a slight stretch.",
+      "price": 49.99,
+      "brand": "DenimStyle",
+      "weight": 0.7,
+      "color": "Blue",
+      "stock": 80
+    },
+    {
+      "id": "prod003",
+      "name": "Running Shoes X1",
+      "description": "Lightweight running shoes with enhanced sole for comfort.",
+      "price": 79.99,
+      "brand": "SportPulse",
+      "weight": 0.5,
+      "color": "Black",
+      "stock": 120
+    },
+    {
+      "id": "prod004",
+      "name": "Summer Dress",
+      "description": "Floral pattern summer dress, perfect for warm days.",
+      "price": 35.5,
+      "brand": "BloomWear",
+      "weight": 0.3,
+      "color": "Yellow",
+      "stock": 60
+    },
+    {
+      "id": "prod005",
+      "name": "Leather Boots",
+      "description": "Elegant leather boots, ideal for formal and casual occasions.",
+      "price": 120,
+      "brand": "UrbanStride",
+      "weight": 1.1,
+      "color": "Brown",
+      "stock": 45
+    },
+    {
+      "id": "prod006",
+      "name": "Hoodie Classic",
+      "description": "Warm and soft hoodie, perfect for cooler weather.",
+      "price": 39.99,
+      "brand": "CozyGear",
+      "weight": 0.6,
+      "color": "Gray",
+      "stock": 90
+    },
+    {
+      "id": "prod007",
+      "name": "Sneakers Vintage",
+      "description": "Retro-style sneakers for everyday comfort.",
+      "price": 65,
+      "brand": "OldSchoolKicks",
+      "weight": 0.45,
+      "color": "White",
+      "stock": 70
+    },
+    {
+      "id": "prod008",
+      "name": "Polo Shirt",
+      "description": "Classic polo shirt with breathable fabric.",
+      "price": 25,
+      "brand": "PreppyWear",
+      "weight": 0.25,
+      "color": "Navy Blue",
+      "stock": 100
+    },
+    {
+      "id": "prod009",
+      "name": "Winter Coat",
+      "description": "Heavy duty winter coat, keeps you warm in extreme cold.",
+      "price": 180,
+      "brand": "ArcticShield",
+      "weight": 2.5,
+      "color": "Black",
+      "stock": 30
+    },
+    {
+      "id": "prod010",
+      "name": "Sport Shorts",
+      "description": "Light and flexible shorts for athletic activities.",
+      "price": 22.99,
+      "brand": "ActiveFit",
+      "weight": 0.15,
+      "color": "Green",
+      "stock": 110
+    },
+    {
+      "id": "prod011",
+      "name": "High Heels",
+      "description": "Elegant high heels for special occasions.",
+      "price": 90,
+      "brand": "GlamourFeet",
+      "weight": 0.6,
+      "color": "Red",
+      "stock": 25
+    },
+    {
+      "id": "prod012",
+      "name": "Sweater Knit",
+      "description": "Soft knit sweater, perfect for chilly evenings.",
+      "price": 55,
+      "brand": "WarmEssentials",
+      "weight": 0.4,
+      "color": "Beige",
+      "stock": 65
+    },
+    {
+      "id": "prod013",
+      "name": "Cargo Pants",
+      "description": "Durable cargo pants with multiple pockets for utility.",
+      "price": 45,
+      "brand": "UtilityWear",
+      "weight": 0.8,
+      "color": "Olive Green",
+      "stock": 75
+    },
+    {
+      "id": "prod014",
+      "name": "Sandals Beach",
+      "description": "Comfortable beach sandals, quick-drying material.",
+      "price": 15,
+      "brand": "CoastalComfort",
+      "weight": 0.2,
+      "color": "Blue",
+      "stock": 95
+    },
+    {
+      "id": "prod015",
+      "name": "Blazer Formal",
+      "description": "Classic formal blazer, suitable for business attire.",
+      "price": 130,
+      "brand": "ExecutiveStyle",
+      "weight": 0.9,
+      "color": "Dark Gray",
+      "stock": 40
+    }
+  ]
+}

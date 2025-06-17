@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Lista de Produtos - Desafio Técnico</title>
+        <!-- Inclui Tailwind CSS para estilização -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            /* Define a fonte Inter para todo o corpo do documento */
+            body {
+                font-family: "Inter", sans-serif;
+                background-color: #f3f4f6; /* Cor de fundo suave */
+            }
+        </style>
+    </head>
+    <body class="p-8">
+        <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-xl">
+            <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+                Nossos Produtos
+            </h1>
+
+            <div
+                id="product-list"
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
+                <!-- Produtos serão carregados aqui pelo JavaScript -->
+                <p class="text-gray-600 text-center col-span-full">
+                    Carregando produtos...
+                </p>
+            </div>
+
+            <div
+                id="error-message"
+                class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-6"
+                role="alert"
+            >
+                <strong class="font-bold">Erro!</strong>
+                <span class="block sm:inline" id="error-text"></span>
+            </div>
+        </div>
+
+        <script>
+            // Função assíncrona para buscar e renderizar os produtos
+            async function fetchAndRenderProducts() {
+                // Obtém as referências para os elementos HTML
+                const productListDiv = document.getElementById("product-list");
+                const errorMessageDiv =
+                    document.getElementById("error-message");
+                const errorTextSpan = document.getElementById("error-text");
+
+                // Limpa mensagens anteriores
+                productListDiv.innerHTML =
+                    '<p class="text-gray-600 text-center col-span-full">Carregando produtos...</p>';
+                errorMessageDiv.classList.add("hidden");
+
+                try {
+                    // Faz uma requisição GET para a API de produtos do seu servidor Node.js
+                    const response = await fetch(
+                        "http://localhost:3000/api/products"
+                    );
+
+                    // Verifica se a resposta da requisição foi bem-sucedida (status 2xx)
+                    if (!response.ok) {
+                        throw new Error(
+                            `Erro na requisição: ${response.statusText} (${response.status})`
+                        );
+                    }
+
+                    // Converte a resposta para JSON
+                    const products = await response.json();
+
+                    // Limpa o conteúdo de "Carregando produtos..."
+                    productListDiv.innerHTML = "";
+
+                    // Verifica se há produtos para exibir
+                    if (products.length === 0) {
+                        productListDiv.innerHTML =
+                            '<p class="text-gray-600 text-center col-span-full">Nenhum produto encontrado.</p>';
+                        return;
+                    }
+
+                    // Itera sobre cada produto e cria um card para ele
+                    products.forEach((product) => {
+                        const productCard = document.createElement("div");
+                        // Aplica classes Tailwind para estilização do card do produto
+                        productCard.className =
+                            "bg-white border border-gray-200 rounded-lg shadow-md p-4 flex flex-col justify-between";
+                        productCard.innerHTML = `
+                        <h2 class="text-xl font-semibold text-gray-900 mb-2">${
+                            product.name
+                        }</h2>
+                        <p class="text-gray-600 mb-3 text-sm">${
+                            product.description
+                        }</p>
+                        <div class="flex flex-wrap text-sm text-gray-700 mb-2">
+                            <span class="mr-4"><strong class="font-medium">Marca:</strong> ${
+                                product.brand
+                            }</span>
+                            <span class="mr-4"><strong class="font-medium">Cor:</strong> ${
+                                product.color
+                            }</span>
+                            <span class="mr-4"><strong class="font-medium">Peso:</strong> ${
+                                product.weight
+                            } kg</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto pt-3 border-t border-gray-100">
+                            <span class="text-2xl font-bold text-indigo-600">R$ ${product.price.toFixed(
+                                2
+                            )}</span>
+                            <span class="text-lg font-semibold ${
+                                product.stock > 0
+                                    ? "text-green-600"
+                                    : "text-red-600"
+                            }">
+                                ${
+                                    product.stock > 0
+                                        ? `Estoque: ${product.stock}`
+                                        : "Fora de Estoque"
+                                }
+                            </span>
+                        </div>
+                    `;
+                        productListDiv.appendChild(productCard);
+                    });
+                } catch (error) {
+                    // Em caso de erro na requisição ou processamento, exibe a mensagem de erro
+                    console.error("Erro ao carregar produtos:", error);
+                    productListDiv.innerHTML = ""; // Limpa o "Carregando produtos..."
+                    errorTextSpan.textContent = `Não foi possível carregar os produtos. Certifique-se de que o servidor Node.js esteja rodando em http://localhost:3000. Detalhes: ${error.message}`;
+                    errorMessageDiv.classList.remove("hidden"); // Mostra a div de erro
+                }
+            }
+
+            // Chama a função para buscar e renderizar os produtos quando a página é carregada
+            document.addEventListener(
+                "DOMContentLoaded",
+                fetchAndRenderProducts
+            );
+        </script>
+    </body>
+</html>
