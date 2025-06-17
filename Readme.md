@@ -63,14 +63,6 @@ Implementar funcionalidades adicionais em uma aplicação Node.js existente. O d
 
 ### 🚀 Como rodar o projeto
 
-1. Clone seu fork do repositório:
-
-    ```
-    git clone SEU_LINK_DO_FORK
-    cd SEU_REPOSITORIO
-
-    ```
-
 2. Verifique a versão do Node.js: (Opcional, se usar NVM para gerenciar versões do Node)
 
     ```
