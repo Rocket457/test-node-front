@@ -1,6 +1,6 @@
 # 🧪 Teste Técnico – Desenvolvedor Node.js (Backend + Frontend Básico)
 
-Este repositório contém o teste técnico para candidatos à vaga de desenvolvedor Full Stack com foco em \*\*Node.js (Express) e Frontend Básico (HTML/JavaScript/Tailwind CSS).
+Este repositório contém o teste técnico para candidatos à vaga de desenvolvedor Full Stack com foco em Node.js (Express) e Frontend Básico (HTML/JavaScript/Tailwind CSS).
 
 ### 🎯 Objetivo
 
