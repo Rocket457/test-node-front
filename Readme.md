@@ -63,21 +63,21 @@ Implementar funcionalidades adicionais em uma aplicação Node.js existente. O d
 
 ### 🚀 Como rodar o projeto
 
-2. Verifique a versão do Node.js: (Opcional, se usar NVM para gerenciar versões do Node)
+1. Verifique a versão do Node.js: (Opcional, se usar NVM para gerenciar versões do Node)
 
     ```
     nvm use
 
     ```
 
-3. Instale as dependências:
+2. Instale as dependências:
 
     ```
     npm install
 
     ```
 
-4. Inicie o servidor:
+3. Inicie o servidor:
 
     ```
     npm start
