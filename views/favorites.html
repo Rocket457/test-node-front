@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favoritos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div id="header-container"></div>
+    <script>
+        // Proteção de rota: redireciona para login se não estiver logado
+        const user = localStorage.getItem('user');
+        if (!user) {
+            window.location.href = '/index.html';
+        }
+    </script>
+    <div class="absolute top-4 right-4">
+        <button id="logoutBtn" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Sair</button>
+    </div>
+    <div class="max-w-4xl mx-auto p-8">
+        <a href="/products.html" class="text-blue-600 hover:underline mb-6 inline-block">&larr; Voltar para a lista</a>
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Meus Favoritos</h1>
+        <div id="favorites-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        <p id="emptyMsg" class="text-gray-600 text-center mt-8 hidden">Nenhum produto favoritado.</p>
+    </div>
+    <script>
+        // Lógica de logout
+        document.getElementById('logoutBtn').onclick = function() {
+            localStorage.removeItem('user');
+            localStorage.removeItem('favorites');
+            window.location.href = '/index.html';
+        };
+
+        async function fetchFavoriteProducts() {
+            const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+            const listDiv = document.getElementById('favorites-list');
+            const emptyMsg = document.getElementById('emptyMsg');
+            listDiv.innerHTML = '';
+            if (favorites.length === 0) {
+                emptyMsg.classList.remove('hidden');
+                return;
+            }
+            emptyMsg.classList.add('hidden');
+            // Buscar detalhes de cada produto favoritado
+            for (const id of favorites) {
+                try {
+                    const res = await fetch(`/api/products/${id}`);
+                    const product = await res.json();
+                    if (product && !product.error) {
+                        const card = document.createElement('div');
+                        card.className = 'bg-white border border-gray-200 rounded-lg shadow-md p-4 flex flex-col justify-between';
+                        card.innerHTML = `
+                            <h2 class="text-xl font-semibold text-gray-900 mb-2">${product.name}</h2>
+                            <p class="text-gray-600 mb-3 text-sm">${product.description}</p>
+                            <div class="flex flex-wrap text-sm text-gray-700 mb-2">
+                                <span class="mr-4"><strong>Marca:</strong> ${product.brand}</span>
+                                <span class="mr-4"><strong>Cor:</strong> ${product.color}</span>
+                                <span class="mr-4"><strong>Peso:</strong> ${product.weight} kg</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-auto pt-3 border-t border-gray-100">
+                                <span class="text-2xl font-bold text-indigo-600">R$ ${product.price.toFixed(2)}</span>
+                                <span class="text-lg font-semibold ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}">
+                                    ${product.stock > 0 ? `Estoque: ${product.stock}` : 'Fora de Estoque'}
+                                </span>
+                            </div>
+                            <a href="/product-detail.html?id=${product.id}" class="mt-4 inline-block text-blue-600 hover:underline">Ver detalhes</a>
+                        `;
+                        listDiv.appendChild(card);
+                    }
+                } catch (e) {
+                    // Ignora produtos não encontrados
+                }
+            }
+            if (listDiv.children.length === 0) {
+                emptyMsg.classList.remove('hidden');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', fetchFavoriteProducts);
+    </script>
+    <script>
+        // Carregar Header
+        (async function() {
+            const script = document.createElement('script');
+            script.src = '/components/Header/Header.js';
+            script.onload = async function() {
+                const header = new Header();
+                await header.render();
+            };
+            document.body.appendChild(script);
+        })();
+    </script>
+</body>
+</html> 
