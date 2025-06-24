@@ -1,77 +1,21 @@
-<script src="https://cdn.tailwindcss.com"></script>
-<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
-    <div class="max-w-2xl w-full mx-auto">
-        <div id="header-container"></div>
-        <div id="product-detail" class="bg-white rounded shadow p-8 mt-8"></div>
-    </div>
-    <script>
-        // Carregar Header
-        (async function() {
-            const script = document.createElement('script');
-            script.src = '/components/Header/Header.js';
-            script.onload = async function() {
-                const header = new Header();
-                await header.render();
-            };
-            document.body.appendChild(script);
-        })();
-
-        // Função para buscar e exibir detalhes do produto
-        async function loadProductDetail() {
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get('id');
-            const container = document.getElementById('product-detail');
-            if (!id) {
-                container.innerHTML = '<p class="text-red-500">ID do produto não informado.</p>';
-                return;
-            }
-            try {
-                const res = await fetch(`/api/products/${id}`);
-                if (!res.ok) throw new Error('Produto não encontrado');
-                const product = await res.json();
-                container.innerHTML = `
-                    <h2 class="text-2xl font-bold mb-2">${product.name}</h2>
-                    <p class="text-gray-700 mb-2">${product.description}</p>
-                    <div class="flex flex-wrap text-sm text-gray-700 mb-2">
-                        <span class="mr-4"><strong>Marca:</strong> ${product.brand}</span>
-                        <span class="mr-4"><strong>Cor:</strong> ${product.color}</span>
-                        <span class="mr-4"><strong>Peso:</strong> ${product.weight} kg</span>
-                    </div>
-                    <div class="flex items-center justify-between mt-4">
-                        <span class="text-2xl font-bold text-indigo-600">R$ ${product.price.toFixed(2)}</span>
-                        <span class="text-lg font-semibold ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}">
-                            ${product.stock > 0 ? `Estoque: ${product.stock}` : 'Fora de Estoque'}
-                        </span>
-                    </div>
-                    <div id="favorite-btn-container" class="mt-6"></div>
-                `;
-                // Carregar o botão de favoritos (POO)
-                const script = document.createElement('script');
-                script.src = '/components/FavoriteButton/FavoriteButton.js';
-                script.onload = async function() {
-                    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-                    const isFavorite = favorites.includes(product.id);
-                    const favBtn = new FavoriteButton(isFavorite, async () => {
-                        favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-                        if (favorites.includes(product.id)) {
-                            favorites = favorites.filter(favId => favId !== product.id);
-                        } else {
-                            favorites.push(product.id);
-                        }
-                        localStorage.setItem('favorites', JSON.stringify(favorites));
-                        // Atualiza o botão
-                        const newBtn = await (new FavoriteButton(favorites.includes(product.id), favBtn.onClick)).render();
-                        document.getElementById('favorite-btn-container').innerHTML = '';
-                        document.getElementById('favorite-btn-container').appendChild(newBtn);
-                    });
-                    const btn = await favBtn.render();
-                    document.getElementById('favorite-btn-container').appendChild(btn);
-                };
-                document.body.appendChild(script);
-            } catch (e) {
-                container.innerHTML = '<p class="text-red-500">Produto não encontrado.</p>';
-            }
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Produto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            padding-top: 72px; /* Espaço para o header fixo */
         }
-        loadProductDetail();
-    </script>
-</body> 
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="max-w-4xl mx-auto"><div id="header-container"></div></div>
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-xl">
+        <div id="product-detail" class="bg-white rounded shadow p-8"></div>
+    </div>
+    <script type="module" src="/js/pages/product-detail.js"></script>
+</body>
+</html> 

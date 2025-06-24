@@ -21,33 +21,12 @@
             <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Entrar</button>
             <p id="errorMsg" class="text-red-500 text-center mt-2 hidden"></p>
         </form>
+        <div class="mt-4 text-center">
+            <p class="text-gray-600">Ainda não tem uma conta? 
+                <a href="/register.html" class="text-blue-600 hover:text-blue-800">Cadastre-se</a>
+            </p>
+        </div>
     </div>
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const errorMsg = document.getElementById('errorMsg');
-            errorMsg.classList.add('hidden');
-            try {
-                const res = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                const data = await res.json();
-                if (res.ok) {
-                    localStorage.setItem('user', JSON.stringify(data));
-                    window.location.href = '/products.html';
-                } else {
-                    errorMsg.textContent = data.error || 'Erro ao fazer login.';
-                    errorMsg.classList.remove('hidden');
-                }
-            } catch (err) {
-                errorMsg.textContent = 'Erro de conexão com o servidor.';
-                errorMsg.classList.remove('hidden');
-            }
-        });
-    </script>
+    <script type="module" src="/js/pages/index.js"></script>
 </body>
 </html> 

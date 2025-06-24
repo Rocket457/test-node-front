@@ -4,27 +4,17 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Lista de Produtos - Desafio Técnico</title>
-        <!-- Inclui Tailwind CSS para estilização -->
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
-            /* Define a fonte Inter para todo o corpo do documento */
             body {
                 font-family: "Inter", sans-serif;
                 background-color: #f3f4f6; /* Cor de fundo suave */
+                padding-top: 72px; /* Espaço para o header fixo */
             }
         </style>
     </head>
     <body class="p-8">
-        <script src="/components/ProductCard/ProductCard.js"></script>
         <div class="max-w-4xl mx-auto"><div id="header-container"></div></div>
-        <script src="/components/ProductCard/ProductCard.js"></script>
-        <script>
-            // Proteção de rota: redireciona para login se não estiver logado
-            const user = localStorage.getItem('user');
-            if (!user) {
-                window.location.href = '/index.html';
-            }
-        </script>
         <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-xl">
             <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">
                 Nossos Produtos
@@ -50,86 +40,6 @@
             </div>
         </div>
 
-        <script>
-            // Função assíncrona para buscar e renderizar os produtos
-            async function fetchAndRenderProducts() {
-                // Obtém as referências para os elementos HTML
-                const productListDiv = document.getElementById("product-list");
-                const errorMessageDiv =
-                    document.getElementById("error-message");
-                const errorTextSpan = document.getElementById("error-text");
-
-                // Limpa mensagens anteriores
-                productListDiv.innerHTML =
-                    '<p class="text-gray-600 text-center col-span-full">Carregando produtos...</p>';
-                errorMessageDiv.classList.add("hidden");
-
-                try {
-                    // Faz uma requisição GET para a API de produtos do seu servidor Node.js
-                    const response = await fetch(
-                        "http://localhost:3000/api/products"
-                    );
-
-                    // Verifica se a resposta da requisição foi bem-sucedida (status 2xx)
-                    if (!response.ok) {
-                        throw new Error(
-                            `Erro na requisição: ${response.statusText} (${response.status})`
-                        );
-                    }
-
-                    // Converte a resposta para JSON
-                    const products = await response.json();
-
-                    // Limpa o conteúdo de "Carregando produtos..."
-                    productListDiv.innerHTML = "";
-
-                    // Verifica se há produtos para exibir
-                    if (products.length === 0) {
-                        productListDiv.innerHTML =
-                            '<p class="text-gray-600 text-center col-span-full">Nenhum produto encontrado.</p>';
-                        return;
-                    }
-
-                    // Itera sobre cada produto e renderiza usando o componente
-                    for (const product of products) {
-                        const card = new ProductCard(product);
-                        const cardHtml = await card.render();
-                        const wrapper = document.createElement('div');
-                        wrapper.innerHTML = cardHtml;
-                        productListDiv.appendChild(wrapper.firstElementChild);
-                    }
-                } catch (error) {
-                    // Em caso de erro na requisição ou processamento, exibe a mensagem de erro
-                    console.error("Erro ao carregar produtos:", error);
-                    productListDiv.innerHTML = ""; // Limpa o "Carregando produtos..."
-                    errorTextSpan.textContent = `Não foi possível carregar os produtos. Certifique-se de que o servidor Node.js esteja rodando em http://localhost:3000. Detalhes: ${error.message}`;
-                    errorMessageDiv.classList.remove("hidden"); // Mostra a div de erro
-                }
-            }
-
-            // Chama a função para buscar e renderizar os produtos quando a página é carregada
-            document.addEventListener(
-                "DOMContentLoaded",
-                fetchAndRenderProducts
-            );
-
-            // Lógica de logout
-            document.getElementById('logoutBtn').onclick = function() {
-                localStorage.removeItem('user');
-                localStorage.removeItem('favorites');
-                window.location.href = '/index.html';
-            };
-        </script>
-        <script>
-            // Carregar Header
-            (async function() {
-                const res = await fetch('/components/Header/Header.html');
-                document.getElementById('header-container').innerHTML = await res.text();
-                const script = document.createElement('script');
-                script.src = '/components/Header/Header.js';
-                script.onload = function() { initHeader(); };
-                document.body.appendChild(script);
-            })();
-        </script>
+        <script type="module" src="/js/pages/products.js"></script>
     </body>
 </html>
